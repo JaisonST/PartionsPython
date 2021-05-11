@@ -25,14 +25,23 @@ class Ui_MainWindow(object):
         self.ansList.setGeometry(QtCore.QRect(10, 50, 341, 501))
         self.ansList.setObjectName("ansList")
 
+        self.label1 = QtWidgets.QLabel(self.centralwidget)
+        self.label1.setGeometry(QtCore.QRect(10, 550, 191, 51))
+        self.label1.setText("Total number of partitions:- ")
+        self.label1.setObjectName("label1")
+
+        self.partCount = QtWidgets.QLabel(self.centralwidget)
+        self.partCount.setGeometry(QtCore.QRect(240, 550, 81, 51))
+        self.partCount.setText("")
+        self.partCount.setObjectName("partCount")
+
+
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 500, 24))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -41,6 +50,12 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.genButton.setText(_translate("MainWindow", "Generate"))
+
+    def setCount(self): 
+        txt = str(self.ansList.count())
+        self.partCount.setText(txt)
+        pass
+
 
     def genListValues(self):
         text = self.inputNo.text() 
@@ -53,6 +68,8 @@ class Ui_MainWindow(object):
             self.ansList.clear()
             list_string = map(str, listVal) 
             self.ansList.addItems(list_string)
+
+            self.setCount() 
 
         except ValueError: 
             print("handle string error") 
