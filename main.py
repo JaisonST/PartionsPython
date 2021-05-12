@@ -17,12 +17,12 @@ class Ui_MainWindow(object):
         self.inputNo.setObjectName("inputNo")
 
         self.genButton = QtWidgets.QPushButton(self.centralwidget)
-        self.genButton.setGeometry(QtCore.QRect(240, 10, 113, 32))
+        self.genButton.setGeometry(QtCore.QRect(220, 10, 113, 32))
         self.genButton.setObjectName("genButton")
         self.genButton.clicked.connect(self.genListValues) 
 
         self.ansList = QtWidgets.QListWidget(self.centralwidget)
-        self.ansList.setGeometry(QtCore.QRect(10, 50, 341, 501))
+        self.ansList.setGeometry(QtCore.QRect(10, 50, 311, 451))
         self.ansList.setObjectName("ansList")
 
         self.label1 = QtWidgets.QLabel(self.centralwidget)
@@ -35,7 +35,17 @@ class Ui_MainWindow(object):
         self.partCount.setText("")
         self.partCount.setObjectName("partCount")
 
+        self.fnLabel = QtWidgets.QLabel(self.centralwidget)
+        self.fnLabel.setGeometry(QtCore.QRect(340, 20, 81, 20))
+        self.fnLabel.setObjectName("fnLabel")
 
+        self.addFnButton = QtWidgets.QPushButton(self.centralwidget)
+        self.addFnButton.setGeometry(QtCore.QRect(380, 510, 113, 32))
+        self.addFnButton.setObjectName("addFnButton")
+
+        self.fnList = QtWidgets.QListWidget(self.centralwidget)
+        self.fnList.setGeometry(QtCore.QRect(340, 50, 141, 451))
+        self.fnList.setObjectName("fnList")
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -50,6 +60,8 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.genButton.setText(_translate("MainWindow", "Generate"))
+        self.fnLabel.setText(_translate("MainWindow", "Functions: "))
+        self.addFnButton.setText(_translate("MainWindow", "AddFunction"))
 
     def setCount(self): 
         txt = str(self.ansList.count())
@@ -74,6 +86,8 @@ class Ui_MainWindow(object):
         except ValueError: 
             print("handle string error") 
 
+    def addFunction(): 
+        print('hello world')
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
