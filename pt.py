@@ -42,7 +42,7 @@ def getPartitions(n):
 
 
 
-#-------------------Sort Partions Functions---------------------#
+#---------------Select Sort Partions Functions-------------------#
 #no even numbers  
 def oddPart(li):
 	for i in li: 
@@ -72,7 +72,26 @@ def rmDiv(li, n):
 	return True  
 #--------------------------------------------------------------#
 
+#-----------------------Sort Functions-------------------------# 
+def oddParts(ans): 
+	return [i for i in ans if oddPart(i)]
 
+def evenParts(ans): 
+	return [i for i in ans if evenPart(i)]
+
+def smallerThan(ans, n): 
+	return [i for i in ans if len(i) < n]
+
+def biggerThan(ans, n): 
+	return [i for i in ans if len(i) > n]
+
+def removeN(ans, n): 
+	return [i for i in ans if rm(i, n)]
+
+def removeDiv(ans, n):
+	return [i for i in ans if rmDiv(i, n)]
+
+#--------------------------------------------------------------#
 
 #------------------------Main program--------------------------# 
 #a = int(input("Enter the number to partiiton:- "))
