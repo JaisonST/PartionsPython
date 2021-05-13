@@ -4,7 +4,7 @@ import sys
 
 
 #DONE todo: create a new ui on addFunction that prints seleced list item  
-#todo: change select to return and add that to the functions ui 
+#DONE todo: change select to return and add that to the functions ui 
 #todo: create a go thro functions list to modify when generate is called 
 
 #list of functions to be added 
@@ -13,7 +13,17 @@ partitionFns = ["oddParts", "evenParts","smallerThan","biggerThan","removeN", "r
 #list of functions being used 
 liveFunctions = [] 
 
-#global check to add function
+#return a set of strings for the funtions display main 
+def liveToStr():
+    retVal = []  
+    for i in liveFunctions: 
+        if i in partitionFns: 
+            retVal.append(i)
+        else: 
+            st = i[0] + '(' + str(i[1]) + ')'
+            retVal.append(st)
+    return retVal
+
 
 def setGlobalFnAdd(val): 
     global globalFnAdd 
@@ -58,6 +68,46 @@ class InputDialog(QtWidgets.QDialog, Ui_Dialog):
         self.setupUi(self)
         
 
+#enter number screen ui 
+class Ui_EnterNO(object):
+
+    def quickClose(self): 
+        self.close() 
+
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.setFixedSize(244, 69)
+        self.label = QtWidgets.QLabel(Dialog)
+        self.label.setGeometry(QtCore.QRect(10, 10, 151, 16))
+        self.label.setObjectName("label")
+        self.submitButton = QtWidgets.QPushButton(Dialog)
+        self.submitButton.setGeometry(QtCore.QRect(150, 30, 91, 31))
+        self.submitButton.setObjectName("submitButton")
+        self.submitButton.clicked.connect(self.quickClose)
+
+        self.fnNo = QtWidgets.QLineEdit(Dialog)
+        self.fnNo.setGeometry(QtCore.QRect(10, 30, 131, 31))
+        self.fnNo.setObjectName("fnNo")
+
+        self.retranslateUi(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def retranslateUi(self, Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.label.setText(_translate("Dialog", "Enter Number :"))
+        self.submitButton.setText(_translate("Dialog", "OK"))
+
+
+
+#sceond screen class 
+class EnterNODialog(QtWidgets.QDialog, Ui_EnterNO):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+
+    def get_val(self):
+        return self.fnNo.text() 
 
 
 #mainwindow ui class  
@@ -147,6 +197,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.addFnButton.clicked.connect(self.get_value)
 
+    #addFunction from list 
     def get_value(self):
         dialog = InputDialog(self)
 
@@ -154,11 +205,36 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if dialog.exec():
             print("waiting for result")
         
+        #if item was selected add to fn list 
         if (getGlobalFnAdd()!= None): 
-            print(getGlobalFnAdd())
+            sel = getGlobalFnAdd()
+            
+            if partitionFns.index(sel)==0 or partitionFns.index(sel)==1:
+                liveFunctions.append(sel)
+            
+            else: 
+                dialog = EnterNODialog(self)
+
+                if dialog.exec(): 
+                    print("waiting for result")
+
+                try: 
+                    fnParameter = int(dialog.get_val())
+                    a = [] 
+                    a.append(sel)
+                    a.append(fnParameter)
+                    liveFunctions.append(a)
+        
+                except ValueError: 
+                    print("handle string error")
+
+
+
+            self.fnList.clear()
+            newL = liveToStr() 
+            self.fnList.addItems(newL)
         
         setGlobalFnAdd(None)
-
 
 
 
@@ -170,7 +246,6 @@ if __name__ == "__main__":
     sys.exit(app.exec_())
 
 
-#a = int(input("Enter the number u want to partion:- "))
 #ans = parts.getPartitions(a) 
 #print(len(ans))
 
