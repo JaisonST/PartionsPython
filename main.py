@@ -1,11 +1,70 @@
 import pt as parts 
-
+import time
+import threading
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys 
 
-listVal = [1,2,3,45,6,7]; 
- 
+
+#DONE todo: create a new ui on addFunction that prints seleced list item  
+#todo: change select to return and add that to the functions ui 
+#todo: create a go thro functions list to modify when generate is called 
+
+#list of functions to be added 
+partitionFns = ["oddParts", "evenParts","smallerThan","biggerThan","removeN", "removeDiv"] 
+
+#global async parameter 
+def setSelectedState(val):
+    global selectedState 
+    selectedState = val  
+
+def getSelectedState(): 
+    return selectedState  
+
+#second screen the list that addsFunctions 
+class SecondWindow(QtWidgets.QMainWindow): 
+
+    def printTest(self): 
+        print("heelo world")
+
+    def __init__(self): 
+        super(SecondWindow, self).__init__() 
+        self.setWindowTitle("Functions")
+        self.itemSelected = True 
+        self.retval = None 
+        self.setupUi()
+    
+    def setupUi(self): 
+        self.setObjectName("SecondWindow")
+        self.setFixedSize(252, 350)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+
+        def selected(item):
+            print(item.text())
+            self.close()
+            
+            
+               
+        self.fnList = QtWidgets.QListWidget(self.centralwidget)
+        self.fnList.setGeometry(QtCore.QRect(10, 30, 231, 291))
+        self.fnList.setObjectName("fnList")
+        self.fnList.addItems(partitionFns)
+        self.fnList.itemClicked.connect(selected)
+
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(10, 0, 151, 21))
+        self.label.setObjectName("label")
+        self.label.setText("Choose Your Function: ")
+
+        self.setCentralWidget(self.centralwidget)
+       
+    def closeEvent(self, event):
+        setSelectedState(True)
+
+
+#main ui class  
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setFixedSize(500, 600)
@@ -42,6 +101,7 @@ class Ui_MainWindow(object):
         self.addFnButton = QtWidgets.QPushButton(self.centralwidget)
         self.addFnButton.setGeometry(QtCore.QRect(380, 510, 113, 32))
         self.addFnButton.setObjectName("addFnButton")
+        self.addFnButton.clicked.connect(self.addFunction) 
 
         self.fnList = QtWidgets.QListWidget(self.centralwidget)
         self.fnList.setGeometry(QtCore.QRect(340, 50, 141, 451))
@@ -58,7 +118,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Partitions"))
         self.genButton.setText(_translate("MainWindow", "Generate"))
         self.fnLabel.setText(_translate("MainWindow", "Functions: "))
         self.addFnButton.setText(_translate("MainWindow", "AddFunction"))
@@ -66,17 +126,13 @@ class Ui_MainWindow(object):
     def setCount(self): 
         txt = str(self.ansList.count())
         self.partCount.setText(txt)
-        pass
-
-
+     
+    #generates the partions and adds to list 
     def genListValues(self):
         text = self.inputNo.text() 
         try: 
             toPart = int(text)
-            print(toPart)  
-
             listVal = parts.getPartitions(toPart)
-            
             self.ansList.clear()
             list_string = map(str, listVal) 
             self.ansList.addItems(list_string)
@@ -86,8 +142,16 @@ class Ui_MainWindow(object):
         except ValueError: 
             print("handle string error") 
 
-    def addFunction(): 
-        print('hello world')
+     
+    #created new window with listwidget and returns the selected item 
+    def addFunction(self): 
+        self.win = SecondWindow() 
+        self.win.show()
+        self.win.printTest()
+
+        print("here, after the close")
+    
+                
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
@@ -95,6 +159,7 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
+    setSelectedState(False)
     sys.exit(app.exec_())
 
 
