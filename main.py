@@ -10,46 +10,57 @@ import sys
 #list of functions to be added 
 partitionFns = ["oddParts", "evenParts","smallerThan","biggerThan","removeN", "removeDiv"] 
 
-#second screen the list that addsFunctions 
-class SecondWindow(QtWidgets.QMainWindow): 
+#list of functions being used 
+liveFunctions = [] 
 
-    def printTest(self): 
-        print("heelo world")
+#global check to add function
 
-    def __init__(self): 
-        super(SecondWindow, self).__init__() 
-        self.setWindowTitle("Functions")
-        self.itemSelected = True 
-        self.retval = None 
-        self.setupUi()
-    
-    def setupUi(self): 
-        self.setObjectName("SecondWindow")
-        self.setFixedSize(252, 350)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
+def setGlobalFnAdd(val): 
+    global globalFnAdd 
+    globalFnAdd = val 
 
-        def selected(item):
-            print(item.text())
-            self.close()
-                   
-        self.fnList = QtWidgets.QListWidget(self.centralwidget)
-        self.fnList.setGeometry(QtCore.QRect(10, 30, 231, 291))
+def getGlobalFnAdd(): 
+    return globalFnAdd 
+
+#second list screen UI 
+class Ui_Dialog(object):
+
+    def selected(self,item): 
+        setGlobalFnAdd(item.text())
+        self.close()
+
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.setFixedSize(250, 350)
+
+        self.fnList = QtWidgets.QListWidget(Dialog)
+        self.fnList.setGeometry(QtCore.QRect(10, 30, 231, 311))
         self.fnList.setObjectName("fnList")
+        self.fnList.itemClicked.connect(self.selected)
         self.fnList.addItems(partitionFns)
-        self.fnList.itemClicked.connect(selected)
 
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(10, 0, 151, 21))
+        self.label = QtWidgets.QLabel(Dialog)
+        self.label.setGeometry(QtCore.QRect(10, 10, 151, 16))
         self.label.setObjectName("label")
-        self.label.setText("Choose Your Function: ")
 
-        self.setCentralWidget(self.centralwidget)
-       
+        self.retranslateUi(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def retranslateUi(self, Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "Functions"))
+        self.label.setText(_translate("Dialog", "Choose Your Function:"))
+
+#sceond screen class 
+class InputDialog(QtWidgets.QDialog, Ui_Dialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        
 
 
 
-#main ui class  
+#mainwindow ui class  
 class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
@@ -88,7 +99,6 @@ class Ui_MainWindow(object):
         self.addFnButton = QtWidgets.QPushButton(self.centralwidget)
         self.addFnButton.setGeometry(QtCore.QRect(380, 510, 113, 32))
         self.addFnButton.setObjectName("addFnButton")
-        self.addFnButton.clicked.connect(self.addFunction) 
 
         self.fnList = QtWidgets.QListWidget(self.centralwidget)
         self.fnList.setGeometry(QtCore.QRect(340, 50, 141, 451))
@@ -130,21 +140,32 @@ class Ui_MainWindow(object):
             print("handle string error") 
 
      
-    #created new window with listwidget and returns the selected item 
-    def addFunction(self): 
-        self.win = SecondWindow() 
-        self.win.show()
-        self.win.printTest()
+#main wndow class            
+class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.addFnButton.clicked.connect(self.get_value)
 
-        print("here, after the close")
-    
-                
+    def get_value(self):
+        dialog = InputDialog(self)
+
+        # this will show the dialog and wait 
+        if dialog.exec():
+            print("waiting for result")
+        
+        if (getGlobalFnAdd()!= None): 
+            print(getGlobalFnAdd())
+        
+        setGlobalFnAdd(None)
+
+
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
+    MainWindow = MainWindow()
+    setGlobalFnAdd(None)
     MainWindow.show()
     sys.exit(app.exec_())
 
