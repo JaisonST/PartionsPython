@@ -1,6 +1,4 @@
-import pt as parts 
-import time
-import threading
+import pt as parts
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys 
 
@@ -11,14 +9,6 @@ import sys
 
 #list of functions to be added 
 partitionFns = ["oddParts", "evenParts","smallerThan","biggerThan","removeN", "removeDiv"] 
-
-#global async parameter 
-def setSelectedState(val):
-    global selectedState 
-    selectedState = val  
-
-def getSelectedState(): 
-    return selectedState  
 
 #second screen the list that addsFunctions 
 class SecondWindow(QtWidgets.QMainWindow): 
@@ -42,9 +32,7 @@ class SecondWindow(QtWidgets.QMainWindow):
         def selected(item):
             print(item.text())
             self.close()
-            
-            
-               
+                   
         self.fnList = QtWidgets.QListWidget(self.centralwidget)
         self.fnList.setGeometry(QtCore.QRect(10, 30, 231, 291))
         self.fnList.setObjectName("fnList")
@@ -58,8 +46,7 @@ class SecondWindow(QtWidgets.QMainWindow):
 
         self.setCentralWidget(self.centralwidget)
        
-    def closeEvent(self, event):
-        setSelectedState(True)
+
 
 
 #main ui class  
@@ -159,7 +146,6 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-    setSelectedState(False)
     sys.exit(app.exec_())
 
 
