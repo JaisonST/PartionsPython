@@ -198,6 +198,15 @@ class Ui_MainWindow(object):
         txt = str(self.ansList.count())
         self.partCount.setText(txt)
      
+    def errorMessage(self,title, txt):
+        msg =  QtWidgets.QMessageBox() 
+        msg.setWindowTitle(title)
+        msg.setText(txt) 
+        #msg.setIcon(QtWidgets.QMessageBox.critical)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+       
+        x = msg.exec_()
+
     #generates the partions and adds to list 
     def genListValues(self):
         text = self.inputNo.text() 
@@ -215,9 +224,8 @@ class Ui_MainWindow(object):
             self.setCount() 
 
         except ValueError as e : 
-            print("herhe")
-            print("handle string error") 
-            print(e)
+            self.errorMessage("Type Mismatch", "Please Make sure to enter a number")
+            #print(e)
      
 #main wndow class            
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -255,8 +263,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     liveFunctions.append(a)
         
                 except ValueError: 
-                    print("handle string error")
-                    
+                    self.errorMessage("Type Mismatch", "Please Make sure to enter a number")
 
 
             self.fnList.clear()
