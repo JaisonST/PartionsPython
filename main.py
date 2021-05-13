@@ -3,15 +3,39 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import sys 
 
 
-#DONE todo: create a new ui on addFunction that prints seleced list item  
-#DONE todo: change select to return and add that to the functions ui 
-#todo: create a go thro functions list to modify when generate is called 
+#DONE: create a new ui on addFunction that prints seleced list item  
+#DONE: change select to return and add that to the functions ui 
+#DONE: create a go thro functions list to modify when generate is called 
+
+
+#TODO: create delete function for list 
+#TODO: handle input error (throw error popup)
 
 #list of functions to be added 
 partitionFns = ["oddParts", "evenParts","smallerThan","biggerThan","removeN", "removeDiv"] 
 
 #list of functions being used 
 liveFunctions = [] 
+
+def goThroFns(listVal): 
+    for i in liveFunctions: 
+
+        if i in partitionFns: 
+            if  partitionFns.index(i) == 0:
+                listVal = parts.oddParts(listVal) 
+            elif partitionFns.index(i) == 1: 
+                listVal = parts.evenParts(listVal) 
+        else:
+            if partitionFns.index(i[0]) == 2:
+                listVal = parts.smallerThan(listVal,i[1])
+            elif partitionFns.index(i[0]) == 3:
+                listVal = parts.biggerThan(listVal,i[1])
+            elif partitionFns.index(i[0]) == 4:
+                listVal = parts.removeN(listVal,i[1])
+            elif partitionFns.index(i[0]) == 5:
+                listVal = parts.removeDiv(listVal,i[1])
+           
+    return listVal
 
 #return a set of strings for the funtions display main 
 def liveToStr():
@@ -180,15 +204,20 @@ class Ui_MainWindow(object):
         try: 
             toPart = int(text)
             listVal = parts.getPartitions(toPart)
+            #create the go thro functions here 
+            listVal = goThroFns(listVal)
+
+            
             self.ansList.clear()
             list_string = map(str, listVal) 
             self.ansList.addItems(list_string)
 
             self.setCount() 
 
-        except ValueError: 
+        except ValueError as e : 
+            print("herhe")
             print("handle string error") 
-
+            print(e)
      
 #main wndow class            
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -227,7 +256,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
                 except ValueError: 
                     print("handle string error")
-
+                    
 
 
             self.fnList.clear()
