@@ -3,40 +3,44 @@
 #Made by: Jaision Thomas 
 #---------------------------------------------------------------#
 
-
-
 #---------------Create Partion Function-------------------------#
 def getPartitions(n):
-	q = [] 
-	l = []
-	a = [] 
-	for i in range(n): 
-		a.append(1) 
-	q.append(a) 
-	
-	while len(q) > 0 : 
-		a = q.pop(0)
-		l.append(a[:])  
-		if len(a) > 2:
-			for i in range(len(a)-1): 
+	retval = []
+	p = [0] * n	 
+	k = 0		 
+	p[k] = n	
 				
-				#go through n sums
-				m = a[:]
-				m[i] =  m[i]+ m[i+1] 
-				m.pop(i+1)
+	cTotal = 0 
+	
+	while True:
 
-				#sort reverse = true
-				m.sort(reverse = True)
+			a = [] 
+			for i in range(0,k+1):
+				a.append(p[i])
+			retval.append(a)		
 
-				#check if it exists in l and q 
-				if (m not in l) and (m not in q):	
-					#if it doesnt exist append to q  
-					q.append(m[:])		
-     
-	a=[]
-	a.append(n) 
-	l.append(a[:]) 
-	return l  	
+			rem_val = 0
+			while k >= 0 and p[k] == 1:
+				rem_val += p[k]
+				k -= 1
+			
+			if k < 0:
+				return retval
+
+			p[k] -= 1
+			rem_val += 1
+
+			while rem_val > p[k]:
+				p[k + 1] = p[k]
+				rem_val = rem_val - p[k]
+				k += 1
+
+			p[k + 1] = rem_val
+			k += 1  
+
+# this function was written 	
+# by JoshuaWorthington
+#modified by Jaison Thomas 
 #---------------------------------------------------------------#
 
 
@@ -97,6 +101,7 @@ def removeDiv(ans, n):
 #a = int(input("Enter the number to partiiton:- "))
 #ans = getPartitions(a) 
 
+
 #partions lesser than a number 
 #short = [i for i in ans if len(i) < 3]
 
@@ -116,7 +121,7 @@ def removeDiv(ans, n):
 #removedDiv = [i for i in ans if rmDiv(i, 3)]
 
 #print final 
-#for i in removedDiv: 
+#for i in ans: 
 #	print(i) 
 #---------------------------------------------------------------#
 

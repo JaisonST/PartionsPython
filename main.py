@@ -1,3 +1,8 @@
+#-------------------Intro Note----------------------------------#
+#Function: UI of partitions program 
+#Made by: Jaision Thomas 
+#---------------------------------------------------------------#
+
 import pt as parts
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys 
@@ -8,7 +13,7 @@ import sys
 #DONE: create a go thro functions list to modify when generate is called 
 
 
-#TODO: create delete function for list 
+#DONE: create delete function for list 
 #DONE: handle input error (throw error popup)
 
 #list of functions to be added 
