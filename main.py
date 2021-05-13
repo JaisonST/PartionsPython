@@ -9,7 +9,7 @@ import sys
 
 
 #TODO: create delete function for list 
-#TODO: handle input error (throw error popup)
+#DONE: handle input error (throw error popup)
 
 #list of functions to be added 
 partitionFns = ["oddParts", "evenParts","smallerThan","biggerThan","removeN", "removeDiv"] 
@@ -177,12 +177,14 @@ class Ui_MainWindow(object):
         self.fnList = QtWidgets.QListWidget(self.centralwidget)
         self.fnList.setGeometry(QtCore.QRect(340, 50, 141, 451))
         self.fnList.setObjectName("fnList")
+        self.fnList.itemClicked.connect(self.deleteMessage)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 500, 24))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
+
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -206,6 +208,28 @@ class Ui_MainWindow(object):
         msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
        
         x = msg.exec_()
+
+     
+    def deleteMessage(self,i): 
+        msg =  QtWidgets.QMessageBox() 
+        msg.setWindowTitle("Delete Function")
+        msg.setText("are u sure u want to delete " + i.text())
+        msg.setStandardButtons(QtWidgets.QMessageBox.Cancel|QtWidgets.QMessageBox.Yes)
+        msg.setDefaultButton(QtWidgets.QMessageBox.Yes)
+
+        
+        msg.buttonClicked.connect(self.popItem)
+        x = msg.exec_()
+    
+    def popItem(self, i):
+        if i.text() == "&Yes":
+            index = self.fnList.currentRow() 
+            liveFunctions.pop(index) 
+
+            self.fnList.clear()
+            newL = liveToStr() 
+            self.fnList.addItems(newL)
+
 
     #generates the partions and adds to list 
     def genListValues(self):
@@ -281,7 +305,4 @@ if __name__ == "__main__":
     MainWindow.show()
     sys.exit(app.exec_())
 
-
-#ans = parts.getPartitions(a) 
-#print(len(ans))
 
