@@ -17,7 +17,7 @@ import sys
 #DONE: handle input error (throw error popup)
 
 #list of functions to be added 
-partitionFns = ["oddParts", "evenParts","smallerThan","biggerThan","removeN", "removeDiv"] 
+partitionFns = ["oddParts", "evenParts","sizeSmallerThan","sizeBiggerThan","removeN", "removeDiv", "lesserThanN", "greaterThanN"] 
 
 #list of functions being used 
 liveFunctions = [] 
@@ -39,6 +39,10 @@ def goThroFns(listVal):
                 listVal = parts.removeN(listVal,i[1])
             elif partitionFns.index(i[0]) == 5:
                 listVal = parts.removeDiv(listVal,i[1])
+            elif partitionFns.index(i[0]) == 6:
+                listVal = parts.lessThanN(listVal,i[1])
+            elif partitionFns.index(i[0]) == 7:
+                listVal = parts.greaterThanN(listVal,i[1])
            
     return listVal
 

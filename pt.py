@@ -74,6 +74,22 @@ def rmDiv(li, n):
 		if i%n == 0:
 			return False 
 	return True  
+
+#no number lesser than a number 
+def ltn(li, n): 
+	for i in li: 
+		if i>=n:
+			return False 
+	return True  
+
+#no number greater than a number 
+def gtn(li, n): 
+	for i in li: 
+		if i<=n:
+			return False 
+	return True  
+
+
 #--------------------------------------------------------------#
 
 #-----------------------Sort Functions-------------------------# 
@@ -95,11 +111,18 @@ def removeN(ans, n):
 def removeDiv(ans, n):
 	return [i for i in ans if rmDiv(i, n)]
 
+def lessThanN(ans, n):
+	return [i for i in ans if ltn(i, n)]
+
+def greaterThanN(ans, n):
+	return [i for i in ans if gtn(i, n)]
+
 #--------------------------------------------------------------#
 
 #------------------------Main program--------------------------# 
 #a = int(input("Enter the number to partiiton:- "))
-#ans = getPartitions(a) 
+#ans = getPartitions(12) 
+
 
 
 #partions lesser than a number 
@@ -121,7 +144,7 @@ def removeDiv(ans, n):
 #removedDiv = [i for i in ans if rmDiv(i, 3)]
 
 #print final 
-#for i in ans: 
+#for i in a: 
 #	print(i) 
 #---------------------------------------------------------------#
 
