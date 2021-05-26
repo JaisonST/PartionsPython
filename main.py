@@ -6,6 +6,7 @@
 import pt as parts
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys 
+import os
 
 
 #DONE: create a new ui on addFunction that prints seleced list item  
@@ -183,6 +184,19 @@ class Ui_MainWindow(object):
         self.addFnButton.setGeometry(QtCore.QRect(380, 510, 113, 32))
         self.addFnButton.setObjectName("addFnButton")
 
+        self.exportButton = QtWidgets.QPushButton(self.centralwidget)
+        self.exportButton.setGeometry(QtCore.QRect(388, 540, 100, 32))
+        self.exportButton.setObjectName("exportButton")
+        self.exportButton.setStyleSheet("QPushButton"
+                                        "{"
+                                        "background-color:#78e670;border-radius: 10px;border-width: 0px;color: white"
+                                        "}"
+                                        "QPushButton::pressed"
+                                        "{"
+                                        "background-color : #098a07;"
+                                        "}")
+        self.exportButton.clicked.connect(self.exportFn) 
+
         self.fnList = QtWidgets.QListWidget(self.centralwidget)
         self.fnList.setGeometry(QtCore.QRect(340, 50, 141, 451))
         self.fnList.setObjectName("fnList")
@@ -204,6 +218,7 @@ class Ui_MainWindow(object):
         self.genButton.setText(_translate("MainWindow", "Generate"))
         self.fnLabel.setText(_translate("MainWindow", "Functions: "))
         self.addFnButton.setText(_translate("MainWindow", "AddFunction"))
+        self.exportButton.setText(_translate("MainWindow", "Export"))
 
     def setCount(self): 
         txt = str(self.ansList.count())
@@ -239,6 +254,20 @@ class Ui_MainWindow(object):
             newL = liveToStr() 
             self.fnList.addItems(newL)
 
+    def exportFn(self):
+        filePath = "export.txt"
+        if os.path.exists(filePath):
+            os.remove(filePath)
+        
+        #write into file
+        f = open("export.txt", "w")
+        for i in range(self.ansList.count()):
+            f.write(self.ansList.item(i).text()) 
+            f.write("\n")
+        f.close()
+
+        
+        
 
     #generates the partions and adds to list 
     def genListValues(self):
