@@ -195,7 +195,7 @@ class Ui_MainWindow(object):
                                         "{"
                                         "background-color : #098a07;"
                                         "}")
-        self.exportButton.clicked.connect(self.exportFn) 
+        self.exportButton.clicked.connect(self.getFileName) 
 
         self.fnList = QtWidgets.QListWidget(self.centralwidget)
         self.fnList.setGeometry(QtCore.QRect(340, 50, 141, 451))
@@ -254,17 +254,30 @@ class Ui_MainWindow(object):
             newL = liveToStr() 
             self.fnList.addItems(newL)
 
-    def exportFn(self):
-        filePath = "export.txt"
-        if os.path.exists(filePath):
-            os.remove(filePath)
+    def getFileName(self):
+        msg =  QtWidgets.QMessageBox() 
+        msg.setWindowTitle("Export")
+        msg.setText("Are you sure u want to export?")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Cancel|QtWidgets.QMessageBox.Save)
+        msg.setDefaultButton(QtWidgets.QMessageBox.Save)
+
+        msg.buttonClicked.connect(self.exportFn)
+        x = msg.exec_()
+
+    def exportFn(self,i):
+        if i.text() == "Save":
+            filePath = "export.txt"
+            if os.path.exists(filePath):
+                os.remove(filePath)
         
-        #write into file
-        f = open("export.txt", "w")
-        for i in range(self.ansList.count()):
-            f.write(self.ansList.item(i).text()) 
-            f.write("\n")
-        f.close()
+            #write into file
+            f = open("export.txt", "w")
+            for i in range(self.ansList.count()):
+                f.write(self.ansList.item(i).text()) 
+                f.write("\n")
+            
+            f.write("\nTotal number or parts: - " + str(self.ansList.count()))
+            f.close()
 
         
         
