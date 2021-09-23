@@ -18,7 +18,7 @@ import os
 #DONE: handle input error (throw error popup)
 
 #list of functions to be added 
-partitionFns = ["oddParts", "evenParts","sizeSmallerThan","sizeBiggerThan","removeN", "removeDiv", "lesserThanN", "greaterThanN"] 
+partitionFns = ["oddParts", "evenParts","sizeSmallerThan","sizeBiggerThan","removeN", "removeDiv", "lesserThanN", "greaterThanN", "1,2,4mod7"] 
 
 #list of functions being used 
 liveFunctions = [] 
@@ -30,7 +30,9 @@ def goThroFns(listVal):
             if  partitionFns.index(i) == 0:
                 listVal = parts.oddParts(listVal) 
             elif partitionFns.index(i) == 1: 
-                listVal = parts.evenParts(listVal) 
+                listVal = parts.evenParts(listVal)
+            elif partitionFns.index(i) == 8: 
+                listVal = parts.mod7(listVal)
         else:
             if partitionFns.index(i[0]) == 2:
                 listVal = parts.smallerThan(listVal,i[1])
@@ -321,7 +323,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if (getGlobalFnAdd()!= None): 
             sel = getGlobalFnAdd()
             
-            if partitionFns.index(sel)==0 or partitionFns.index(sel)==1:
+            #functions that do not take an input are added here
+            if partitionFns.index(sel)==0 or partitionFns.index(sel)==1 or partitionFns.index(sel)== 8:
                 liveFunctions.append(sel)
             
             else: 
