@@ -89,6 +89,19 @@ def gtn(li, n):
 			return False 
 	return True  
 
+#check array is 1,2,4, % 7 
+def m7(li):
+	rep_check = []	
+	for i in li: 
+		if i % 7 == 1 or i % 7 == 2 or i % 7 == 4:
+			if i in rep_check: 
+				return False
+			rep_check.append(i)
+		else:
+			return False
+	return True
+		  
+
 
 #--------------------------------------------------------------#
 
@@ -117,11 +130,13 @@ def lessThanN(ans, n):
 def greaterThanN(ans, n):
 	return [i for i in ans if gtn(i, n)]
 
+def mod7(ans):
+	return [i for i in ans if m7(i)]
 #--------------------------------------------------------------#
 
 #------------------------Main program--------------------------# 
 #a = int(input("Enter the number to partiiton:- "))
-#ans = getPartitions(12) 
+#ans = getPartitions(5) 
 
 
 
@@ -142,6 +157,9 @@ def greaterThanN(ans, n):
 
 #partions removing containing a number divisible by given number   
 #removedDiv = [i for i in ans if rmDiv(i, 3)]
+
+#1,2,4 mod 7 
+#a = [i for i in ans if  m7(i)]
 
 #print final 
 #for i in a: 
