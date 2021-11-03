@@ -100,9 +100,31 @@ def m7(li):
 		else:
 			return False
 	return True
-		  
 
 
+#check iterative mod values 
+def modIterFN(li): 
+	if(len(li) == 1): 
+		return True 
+	else: 
+		for i in range(len(li) - 1): 
+			if li[i] == li[i + 1]: 
+				return False 
+			if li[i + 1] % 7 == 1 or li[i + 1] % 7 == 2 or li[i + 1] % 7 == 4:
+				if li[i] - li[i + 1] < 7 :
+					return False 
+			elif li[i + 1] % 7 == 3: 
+				if li[i] - li[i + 1] < 12 :
+					return False 
+			elif li[i + 1] % 7 == 6 or li[i + 1] % 7 == 5: 
+				if li[i] - li[i + 1] < 10 :
+					return False 
+			elif li[i + 1] % 7 == 0: 
+				if li[i] - li[i + 1] < 15 :
+					return False 
+			else:
+				return False 
+		return True  
 #--------------------------------------------------------------#
 
 #-----------------------Sort Functions-------------------------# 
@@ -132,6 +154,9 @@ def greaterThanN(ans, n):
 
 def mod7(ans):
 	return [i for i in ans if m7(i)]
+
+def modIter(ans): 
+	return [i for i in ans if modIterFN(i)]
 #--------------------------------------------------------------#
 
 #------------------------Main program--------------------------# 
